@@ -12,11 +12,14 @@ public class Calculadora {
     public Calculadora() {
         _currentTotal = 0;
     }
+
     public String getTotalString() {
+
         return String.valueOf(_currentTotal);
     }
 
     public void setTotal(double d) {
+
         _currentTotal = d;
     }
 
