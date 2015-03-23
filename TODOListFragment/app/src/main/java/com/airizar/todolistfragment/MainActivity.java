@@ -1,39 +1,45 @@
 package com.airizar.todolistfragment;
 
+import android.app.ListFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.airizar.todolistfragment.fragment.InputFragment;
+import com.airizar.todolistfragment.fragment.TodoFragment;
+import com.airizar.todolistfragment.model.Todo;
 
-public class MainActivity extends ActionBarActivity {
+//debe implementar el listener de fragment, para que el fragmento le pueda pasar los datos
+public class MainActivity extends ActionBarActivity implements InputFragment.TodoItemListener {
+
+    private static String TODO = "TODO";
+    private InputFragment.TodoItemListener listFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+        //La clase listFragment de java no tiene el metodo addtodo por lo que tendremos que intentar convertir
+        //el fragmento obtenido por id para saver si implementa la interfaz que tiene el metodo addtodo
+        //listFragment.addTodo
+        //ListFragment listFragment=(ListFragment)getFragmentManager().findFragmentById(R.id.listFragment);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        try {
+            listFragment = (InputFragment.TodoItemListener) getFragmentManager().findFragmentById(R.id.listFragment);
+        } catch (ClassCastException ex) {
+            throw new ClassCastException(this.toString() + " must implement TodoItemListener");
         }
+    }
 
-        return super.onOptionsItemSelected(item);
+
+    @Override
+    public void addTodo(Todo todo) {
+        Log.d(TODO, todo.toString());
+
+        listFragment.addTodo(todo);
     }
 }

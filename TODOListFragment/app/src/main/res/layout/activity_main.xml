@@ -14,8 +14,9 @@
     <fragment
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:name="android.app.ListFragment"
+        android:name="com.airizar.todolistfragment.fragment.TodoFragment"
         android:id="@+id/listFragment"
         android:layout_weight="1"
         tools:layout="@android:layout/simple_list_item_1" />
 </LinearLayout>
+    <!--android.listFragment borrado y sustituydo por el nuestro-->
