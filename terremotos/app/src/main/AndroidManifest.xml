@@ -3,6 +3,7 @@
     package="com.airizar.terremotos" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,6 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".DetalleTerremoto"
+            android:label="@string/title_activity_detalle_terremoto" >
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/Preferencias">
+            </activity>
     </application>
 
 </manifest>

@@ -1,12 +1,16 @@
 package com.airizar.terremotos.fragments;
 
 import android.app.ListFragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import com.airizar.terremotos.DetalleTerremoto;
 import com.airizar.terremotos.R;
 import com.airizar.terremotos.adapters.TerremotoAdapter;
 import com.airizar.terremotos.model.Terremoto;
@@ -20,7 +24,8 @@ import java.util.ArrayList;
 public class TerremotoListFragment extends ListFragment implements TareaDescargaTerremotos.AnnadirTerremotoInterface {
 
     private static final String TAG = "CONECCTION";
-    private static final String TERREMOTO = "TERREMOTO";
+    public static final String TERREMOTO = "TERREMOTO";
+    public static final String TERREMOTO_ITEM = "TERREMOTO ITEM";
     private JSONObject json;
     private ArrayList<Terremoto> listaTerremotos;
     //
@@ -60,5 +65,24 @@ public class TerremotoListFragment extends ListFragment implements TareaDescarga
     public void annadirTerremoto(Terremoto terremoto) {
         listaTerremotos.add(0,terremoto);
         aa.notifyDataSetChanged();
+    }
+
+    @Override
+    public void notifyTotal(int total) {
+        String msg=getString(R.string.num_terremotos,total);
+        Toast t= Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT);
+        t.show();
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+        Terremoto terremoto = listaTerremotos.get(position);
+        //como el fragmento no es un contexto le pido su actividad con getActivity
+        Intent detailIntent = new Intent(getActivity(), DetalleTerremoto.class);
+        //para pasarle los datos utilizar putExtra (como bunddle)
+        detailIntent.putExtra(TERREMOTO_ITEM, terremoto);
+
+        startActivity(detailIntent);
     }
 }

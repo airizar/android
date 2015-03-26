@@ -1,9 +1,11 @@
 package com.airizar.terremotos.model;
 
+import java.io.Serializable;
+
 /**
  * Created by cursomovil on 25/03/15.
  */
-public class Coordenada {
+public class Coordenada implements Serializable {
     /**
      * Latitud
      */

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/terremotos_refresh">
+        <SwitchPreference
+            android:key="@string/AUTO_REFRESH"
+            android:defaultValue="false"
+            android:summary="@string/AutoRefreshSummary"
+            android:title="@string/Autorefresh" />
+        <ListPreference
+            android:entries="@array/update_freq_entries"
+            android:entryValues="@array/update_freq_values"
+            android:key="@string/PREF_UPDATE_INTERVAL"
+            android:dependency="@string/AUTO_REFRESH"
+            android:summary="ListPreference summary"
+            android:title="ListPreference title"
+            android:defaultValue="5" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/terremotos_filter">
+
+    </PreferenceCategory>
+</PreferenceScreen>

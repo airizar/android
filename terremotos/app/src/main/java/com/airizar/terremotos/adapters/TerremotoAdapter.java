@@ -43,12 +43,14 @@ public class TerremotoAdapter extends ArrayAdapter<Terremoto> {
         Terremoto item = getItem(position);
         TextView txtMag=(TextView) layout.findViewById(R.id.txtMag);
         TextView txtLugar=(TextView) layout.findViewById(R.id.txtLugar);
-        TextView txtFecha=(TextView) layout.findViewById(R.id.txtFecha);
+        TextView txtFecha=(TextView) layout.findViewById(R.id.txtFech);
 
         txtMag.setText(String.valueOf(item.getMagnitud()));
         txtLugar.setText(item.getLugar());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        txtLugar.setText(sdf.format(item.getTime()));
+        txtFecha.setText(sdf.format(item.getTime()));
+
+
         return layout;
     }
 

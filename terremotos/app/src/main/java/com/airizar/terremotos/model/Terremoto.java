@@ -1,11 +1,12 @@
 package com.airizar.terremotos.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by cursomovil on 25/03/15.
  */
-public class Terremoto {
+public class Terremoto implements Serializable{
 
     /**
      * Identificador
@@ -60,7 +61,7 @@ public class Terremoto {
     public void setTime(Date time) {
         this.time = time;
     }
-    public void setTime(int time) {
+    public void setTime(long time) {
         this.time = new Date(time);
     }
 

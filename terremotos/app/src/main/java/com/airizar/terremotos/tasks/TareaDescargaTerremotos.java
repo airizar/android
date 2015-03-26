@@ -31,6 +31,7 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
 
     public interface AnnadirTerremotoInterface{
        public void annadirTerremoto(Terremoto terremoto);
+       public void notifyTotal(int total);
    }
 
     public TareaDescargaTerremotos(AnnadirTerremotoInterface target) {
@@ -42,10 +43,12 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
          */
     @Override
     protected Integer doInBackground(String... params) {
+        int count =0;
         if(params.length>0){
-            actualizarTerremotos(params[0]);
+            count=actualizarTerremotos(params[0]);
+
         }
-        return null;
+        return new Integer(count);
     }
 
     @Override
@@ -54,9 +57,15 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
         target.annadirTerremoto(terremoto[0]);
     }
 
-    private void actualizarTerremotos(String urlTerremotos) {
-        //String urlTerrremotos = getString(R.string.urlTerremotos);
+    @Override
+    protected void onPostExecute(Integer count) {
+        super.onPostExecute(count);
+        target.notifyTotal(count.intValue());
+    }
 
+    private int actualizarTerremotos(String urlTerremotos) {
+        //String urlTerrremotos = getString(R.string.urlTerremotos);
+        int count=0;
         try {
             URL url = new URL(urlTerremotos);
             URLConnection connection = url.openConnection();
@@ -74,7 +83,7 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
 
                 JSONObject json = new JSONObject(responseStrBuilder.toString());
                 JSONArray terremotos = json.getJSONArray("features");
-
+                count=terremotos.length();
                 for (int i = terremotos.length() - 1; i >= 0; i--) {
                     procesarTerremotos(terremotos.getJSONObject(i));
                 }
@@ -87,6 +96,7 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return count;
     }
     private void procesarTerremotos(JSONObject jsonObject) {
         try {
@@ -99,7 +109,7 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
             terremoto.setCoord(coords);
             terremoto.setLugar(jsonPropiedades.getString("place"));
             terremoto.setMagnitud(jsonPropiedades.getDouble("mag"));
-            terremoto.setTime(jsonPropiedades.getInt("time"));
+            terremoto.setTime(jsonPropiedades.getLong("time"));
             terremoto.setUrl(jsonPropiedades.getString("url"));
 
             Log.d(TERREMOTO, id+" : "+terremoto.toString());
