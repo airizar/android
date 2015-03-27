@@ -2,7 +2,9 @@ package com.airizar.terremotos.fragments;
 
 import android.app.ListFragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +22,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+public class TerremotoListFragment extends ListFragment {
 
-public class TerremotoListFragment extends ListFragment implements TareaDescargaTerremotos.AnnadirTerremotoInterface {
+//public class TerremotoListFragment extends ListFragment implements TareaDescargaTerremotos.AnnadirTerremotoInterface {
 
     private static final String TAG = "CONECCTION";
     public static final String TERREMOTO = "TERREMOTO";
@@ -30,16 +33,20 @@ public class TerremotoListFragment extends ListFragment implements TareaDescarga
     private ArrayList<Terremoto> listaTerremotos;
     //
      private ArrayAdapter<Terremoto> aa;
-
+    private SharedPreferences pref;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listaTerremotos=new ArrayList<>();
+        pref= PreferenceManager.getDefaultSharedPreferences(getActivity());
         //this , le digo al asyncTask que me avise a mi, como no soy de clase TareaDescargaTerremotosInterface
         //tengo que implementar la interface y definir el terremoto
-        TareaDescargaTerremotos tarea=new TareaDescargaTerremotos(this);
+        /*BD
+        TareaDescargaTerremotos tarea=new TareaDescargaTerremotos(getActivity(),this);
         //crea un nuevo thread y llama al do in background
         tarea.execute(getString(R.string.urlTerremotos));
+         */
+
         /*Thread t=new Thread(new Runnable() {
             @Override
             public void run() {
@@ -61,18 +68,20 @@ public class TerremotoListFragment extends ListFragment implements TareaDescarga
     }
 
 
-    @Override
-    public void annadirTerremoto(Terremoto terremoto) {
-        listaTerremotos.add(0,terremoto);
-        aa.notifyDataSetChanged();
+   /* public void annadirTerremoto(Terremoto terremoto) {
+        double minMagnitude=Double.parseDouble(pref.getString(getString(R.string.MAGNITUDE_VALUES), "0"));
+        if(minMagnitude<=terremoto.getMagnitud()){
+            listaTerremotos.add(0,terremoto);
+            aa.notifyDataSetChanged();
+        }
     }
-
-    @Override
+*/
+   /* @Override
     public void notifyTotal(int total) {
         String msg=getString(R.string.num_terremotos,total);
         Toast t= Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT);
         t.show();
-    }
+    }*/
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {

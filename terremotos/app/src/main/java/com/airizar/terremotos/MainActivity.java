@@ -5,16 +5,20 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.airizar.terremotos.tasks.TareaDescargaTerremotos;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity  implements TareaDescargaTerremotos.AnnadirTerremotoInterface{
 
-    private static final int PREFERENCES_ACTIVITY = 1;
+    public static final int PREFERENCES_ACTIVITY = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        descargaTerremotos();
     }
 
 
@@ -44,5 +48,17 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void notifyTotal(int total) {
+        String msg=getString(R.string.num_terremotos,total);
+        Toast t= Toast.makeText(this,msg,Toast.LENGTH_SHORT);
+        t.show();
+    }
+    public void descargaTerremotos(){
+        TareaDescargaTerremotos tarea=new TareaDescargaTerremotos(this,this);
+        //crea un nuevo thread y llama al do in background
+        tarea.execute(getString(R.string.urlTerremotos));
     }
 }

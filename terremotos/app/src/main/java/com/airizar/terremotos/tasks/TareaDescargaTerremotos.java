@@ -1,9 +1,11 @@
 package com.airizar.terremotos.tasks;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.airizar.terremotos.R;
+import com.airizar.terremotos.database.TerremotosDB;
 import com.airizar.terremotos.model.Coordenada;
 import com.airizar.terremotos.model.Terremoto;
 
@@ -25,17 +27,19 @@ import java.net.URLConnection;
  */
 public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer> {
 
+    private TerremotosDB terremotosDB;
     private static final String TAG = "CONNECTION";
     private static final String TERREMOTO = "TERREMOTO";
     private final AnnadirTerremotoInterface target;
 
     public interface AnnadirTerremotoInterface{
-       public void annadirTerremoto(Terremoto terremoto);
+       //public void annadirTerremoto(Terremoto terremoto);
        public void notifyTotal(int total);
    }
 
-    public TareaDescargaTerremotos(AnnadirTerremotoInterface target) {
+    public TareaDescargaTerremotos(Context context,AnnadirTerremotoInterface target) {
         this.target=target;
+        terremotosDB=new TerremotosDB(context);
     }
 
     /*
@@ -54,7 +58,7 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
     @Override
     protected void onProgressUpdate(Terremoto... terremoto) {
         super.onProgressUpdate(terremoto);
-        target.annadirTerremoto(terremoto[0]);
+        //target.annadirTerremoto(terremoto[0]);
     }
 
     @Override
