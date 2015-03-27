@@ -11,11 +11,17 @@
             android:entryValues="@array/update_freq_values"
             android:key="@string/PREF_UPDATE_INTERVAL"
             android:dependency="@string/AUTO_REFRESH"
-            android:summary="ListPreference summary"
-            android:title="ListPreference title"
+            android:summary="@string/Auto_Refresh_Interval"
+            android:title="@string/Auto_Refresh_Interval_Summary"
             android:defaultValue="5" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/terremotos_filter">
-
+        <ListPreference
+            android:entries="@array/magnitude_entries"
+            android:entryValues="@array/mgnidude_values"
+            android:key="@string/MAGNITUDE_VALUES"
+            android:summary="@string/magnitude_filter_summary"
+            android:title="@string/magnitude_filter"
+            android:defaultValue="5" />
     </PreferenceCategory>
 </PreferenceScreen>

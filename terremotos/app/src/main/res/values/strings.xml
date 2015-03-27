@@ -15,11 +15,16 @@
     <string name="terremotos_refresh">Automatico</string>
     <string name="terremotos_filter">Magnitud minima</string>
     <string name="AutoRefreshOnOff">Actualizacion automatica de datos</string>
-    <string name="Autorefresh">AutoRefresh</string>
+    <string name="Autorefresh">Actualizacion automatica</string>
     <string name="MagnitudMinima">Magnitud minima</string>
     <string name="AutoRefreshSummary">Refresco automatico de los terremotos</string>
     <string name="MagnitudMinimaSummary">Magnitud minima que se mostrara</string>
     <string name="PREF_AUTO_UPDATE">Preferencias refresco</string>
     <string name="PREF_UPDATE_INTERVAL">Intervalo de refresco</string>
     <string name="AUTO_REFRESH">Auto</string>
+    <string name="Auto_Refresh_Interval">Intervalo de actualizacion</string>
+    <string name="Auto_Refresh_Interval_Summary">Listado de tiempos para la actualización automatica de los terremotos</string>
+    <string name="MAGNITUDE_VALUES">Valores magnitud</string>
+    <string name="magnitude_filter">Filtro de magnitudes</string>
+    <string name="magnitude_filter_summary">Selecciona un valor de la lista para filtrar</string>
 </resources>
