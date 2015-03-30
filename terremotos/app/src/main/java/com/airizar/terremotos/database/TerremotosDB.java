@@ -5,28 +5,35 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.airizar.terremotos.model.Coordenada;
 import com.airizar.terremotos.model.Terremoto;
 
+import java.lang.reflect.Array;
 import java.net.URL;
+import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by cursomovil on 27/03/15.
  */
 public class TerremotosDB {
-    private static final String ID = "_id";
-    private static final String PLACE = "place";
-    private static final String MAGNITUDE = "magnitude";
-    private static final String LAT = "lat";
-    private static final String LON = "lon";
-    private static final String DEPTH = "depth";
-    private static final String URL_TERREMOTOS = "url";
-    private static final String TIME = "time";
+    //Seran publicas para que desde fuera no tengan que saber los nombres de las columnas
+    public static final String ID = "_id";
+    public static final String PLACE = "place";
+    public static final String MAGNITUDE = "magnitude";
+    public static final String LAT = "lat";
+    public static final String LON = "lon";
+    public static final String DEPTH = "depth";
+    public static final String URL_TERREMOTOS = "url";
+    public static final String TIME = "time";
+    public static final String[] ALL_COLLUMNS={ID,PLACE,MAGNITUDE,LAT,LON,DEPTH,URL_TERREMOTOS,TIME};
     private static final String DB = "DB";
     private SQLiteDatabase db;
     private TerremotosOpenHelper helper;
@@ -35,41 +42,44 @@ public class TerremotosDB {
         helper = new TerremotosOpenHelper(context, TerremotosOpenHelper.DATABASE_NAME, null, TerremotosOpenHelper.DATABASE_VERSION);
         this.db = helper.getWritableDatabase();
     }
+    //Polimorfismo, al utilizar list despues puedo cambiar el resultado a cualquier clase que
+    // implemente a list sin tener ningun problema
+    public List<Terremoto> query(String where,String[] whereArgs) {
+   // public ArrayList<Terremoto> query(String where,String[] whereArgs) {
+        //String magnitudString = String.valueOf(magnitud);
 
-    public ArrayList<Terremoto> getTerremotos(double magnitud) {
-        String magnitudString=String.valueOf(magnitud);
-        String[] result_columns = new String[]{"_id", "place", "magnitude", "lat", "lon", "depth", "url", "time"};
-        String where=MAGNITUDE+">?";
-        String whereArgs[] = {magnitudString};
         String groupBy = null;
         String having = null;
-        String order = null;
-        Cursor cursor=db.query(TerremotosOpenHelper.DATABASE_TABLE,result_columns,where,whereArgs,groupBy,having,order);
-        ArrayList<Terremoto> terremotos=new ArrayList<>();
+        String order = TIME+ " DESC";
+        Cursor cursor = db.query(TerremotosOpenHelper.DATABASE_TABLE, ALL_COLLUMNS, where, whereArgs, groupBy, having, order);
+        ArrayList<Terremoto> terremotos = new ArrayList<>();
+        //HashMap para obtener los indices de las columnas
+        HashMap<String,Integer> indexes=new HashMap<>();
+        for (int i = 0; i < ALL_COLLUMNS.length ; i++) {
+            indexes.put(ALL_COLLUMNS[i],cursor.getColumnIndex(ALL_COLLUMNS[i]));
+        }
 
-        //crear funcion para obtener los indices
-        int	ID_INDEX	= cursor.getColumnIndexOrThrow(ID);
-        int	PLACE_INDEX	= cursor.getColumnIndexOrThrow(PLACE);
-        int	MAGNITUDE_INDEX	= cursor.getColumnIndexOrThrow(MAGNITUDE);
-        int	LAT_INDEX	= cursor.getColumnIndexOrThrow(LAT);
-        int	LON_INDEX	= cursor.getColumnIndexOrThrow(LON);
-        int	DEPTH_INDEX	= cursor.getColumnIndexOrThrow(DEPTH);
-        int	URL_INDEX	= cursor.getColumnIndexOrThrow(URL_TERREMOTOS);
-        int	TIME_INDEX	= cursor.getColumnIndexOrThrow(TIME);
-
-        while(cursor.moveToNext()){
-            Terremoto terremoto=new Terremoto();
-            terremoto.set_id(cursor.getString(ID_INDEX));
-            terremoto.setLugar(cursor.getString(PLACE_INDEX));
-            terremoto.setMagnitud(cursor.getDouble(MAGNITUDE_INDEX));
-            terremoto.setCoord(new Coordenada(cursor.getDouble(LAT_INDEX),cursor.getDouble(LON_INDEX),cursor.getDouble(DEPTH_INDEX)));
-            terremoto.setUrl(cursor.getString(URL_INDEX));
-            terremoto.setTime(cursor.getLong(TIME_INDEX));
+        while (cursor.moveToNext()) {
+            Terremoto terremoto = new Terremoto();
+            terremoto.set_id(cursor.getString(indexes.get(ID)));
+            terremoto.setLugar(cursor.getString(indexes.get(PLACE)));
+            terremoto.setMagnitud(cursor.getDouble(indexes.get(MAGNITUDE)));
+            terremoto.setCoord(new Coordenada(cursor.getDouble(indexes.get(LAT)), cursor.getDouble(indexes.get(LON)), cursor.getDouble(indexes.get(DEPTH))));
+            terremoto.setUrl(cursor.getString(indexes.get(URL_TERREMOTOS)));
+            terremoto.setTime(cursor.getLong(indexes.get(TIME)));
             terremotos.add(terremoto);
         }
         cursor.close();
         return terremotos;
 
+    }
+    public List<Terremoto> getAll(){
+        return query(null,null);
+    }
+    public List<Terremoto> getAllByMagnitude(int magnitude){
+        String where=MAGNITUDE+ " >=?";
+        String[] whereArgs={String.valueOf(magnitude)};
+        return query(where,whereArgs);
     }
 
     public void annadirTerremoto(Terremoto terremoto) {
@@ -82,8 +92,15 @@ public class TerremotosDB {
         newValues.put(DEPTH, terremoto.getCoord().getProdundidad());
         newValues.put(URL_TERREMOTOS, terremoto.getUrl());
         newValues.put(TIME, terremoto.getTime().getTime());
-        db.insert(TerremotosOpenHelper.DATABASE_TABLE, null, newValues);
+        try {
+            db.insertOrThrow(TerremotosOpenHelper.DATABASE_TABLE, null, newValues);
+        }catch (SQLiteException ex){
+            Log.d(DB,ex.toString());
+        }
     }
+
+
+
 
     private static class TerremotosOpenHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "terremotos.db";

@@ -60,7 +60,8 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
     @Override
     protected void onProgressUpdate(Terremoto... terremoto) {
         super.onProgressUpdate(terremoto);
-        terremotosDB.annadirTerremoto(terremoto[0]);
+        //Si lo ponemos aqui no sirve porque el asinktask se queda inutil
+        //terremotosDB.annadirTerremoto(terremoto[0]);
         //target.annadirTerremoto(terremoto[0]);
     }
 
@@ -119,12 +120,12 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
             terremoto.setMagnitud(jsonPropiedades.getDouble("mag"));
             terremoto.setTime(jsonPropiedades.getLong("time"));
             terremoto.setUrl(jsonPropiedades.getString("url"));
-            //terremotosDB.annadirTerremoto(terremoto);
             Log.d(TERREMOTO, id+" : "+terremoto.toString());
 
 
             //para sincronizarme con la vista y avisarle de que tengo un dato util para la vista,
             // mediante publishprogress (que llamara a on progressupdate)
+            terremotosDB.annadirTerremoto(terremoto);
             publishProgress(terremoto);
 
         } catch (JSONException e) {

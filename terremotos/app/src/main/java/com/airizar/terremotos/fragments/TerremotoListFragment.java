@@ -40,8 +40,8 @@ public class TerremotoListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         listaTerremotos=new ArrayList<>();
         pref= PreferenceManager.getDefaultSharedPreferences(getActivity());
-        double magnitud=Double.parseDouble(pref.getString(getString(R.string.MAGNITUDE_VALUES),"0.0"));
-        listaTerremotos=new TerremotosDB(getActivity()).getTerremotos(magnitud);
+        int magnitud=Integer.parseInt(pref.getString(getString(R.string.MAGNITUDE_VALUES),"0.0"));
+        listaTerremotos= (ArrayList<Terremoto>) new TerremotosDB(getActivity()).getAllByMagnitude(magnitud);
         //this , le digo al asyncTask que me avise a mi, como no soy de clase TareaDescargaTerremotosInterface
         //tengo que implementar la interface y definir el terremoto
         /*BD
@@ -95,5 +95,11 @@ public class TerremotoListFragment extends ListFragment {
         detailIntent.putExtra(TERREMOTO_ITEM, terremoto);
 
         startActivity(detailIntent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 }
