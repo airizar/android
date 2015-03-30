@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.airizar.terremotos.DetalleTerremoto;
 import com.airizar.terremotos.R;
 import com.airizar.terremotos.adapters.TerremotoAdapter;
+import com.airizar.terremotos.database.TerremotosDB;
 import com.airizar.terremotos.model.Terremoto;
 import com.airizar.terremotos.tasks.TareaDescargaTerremotos;
 
@@ -39,6 +40,8 @@ public class TerremotoListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         listaTerremotos=new ArrayList<>();
         pref= PreferenceManager.getDefaultSharedPreferences(getActivity());
+        double magnitud=Double.parseDouble(pref.getString(getString(R.string.MAGNITUDE_VALUES),"0.0"));
+        listaTerremotos=new TerremotosDB(getActivity()).getTerremotos(magnitud);
         //this , le digo al asyncTask que me avise a mi, como no soy de clase TareaDescargaTerremotosInterface
         //tengo que implementar la interface y definir el terremoto
         /*BD
@@ -46,7 +49,6 @@ public class TerremotoListFragment extends ListFragment {
         //crea un nuevo thread y llama al do in background
         tarea.execute(getString(R.string.urlTerremotos));
          */
-
         /*Thread t=new Thread(new Runnable() {
             @Override
             public void run() {

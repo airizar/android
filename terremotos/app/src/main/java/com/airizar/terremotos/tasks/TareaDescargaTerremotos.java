@@ -20,6 +20,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 
 /**
  * Created by cursomovil on 25/03/15.
@@ -28,6 +29,7 @@ import java.net.URLConnection;
 public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer> {
 
     private TerremotosDB terremotosDB;
+    private static final String DB = "DB";
     private static final String TAG = "CONNECTION";
     private static final String TERREMOTO = "TERREMOTO";
     private final AnnadirTerremotoInterface target;
@@ -58,6 +60,7 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
     @Override
     protected void onProgressUpdate(Terremoto... terremoto) {
         super.onProgressUpdate(terremoto);
+        terremotosDB.annadirTerremoto(terremoto[0]);
         //target.annadirTerremoto(terremoto[0]);
     }
 
@@ -102,6 +105,7 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
         }
         return count;
     }
+
     private void procesarTerremotos(JSONObject jsonObject) {
         try {
             String id=jsonObject.getString("id");
@@ -115,8 +119,10 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
             terremoto.setMagnitud(jsonPropiedades.getDouble("mag"));
             terremoto.setTime(jsonPropiedades.getLong("time"));
             terremoto.setUrl(jsonPropiedades.getString("url"));
-
+            //terremotosDB.annadirTerremoto(terremoto);
             Log.d(TERREMOTO, id+" : "+terremoto.toString());
+
+
             //para sincronizarme con la vista y avisarle de que tengo un dato util para la vista,
             // mediante publishprogress (que llamara a on progressupdate)
             publishProgress(terremoto);
@@ -124,6 +130,8 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
     }
+
 
 }
