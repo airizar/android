@@ -33,57 +33,29 @@ public class TerremotoListFragment extends ListFragment {
     private JSONObject json;
     private ArrayList<Terremoto> listaTerremotos;
     //
-     private ArrayAdapter<Terremoto> aa;
+    private ArrayAdapter<Terremoto> aa;
     private SharedPreferences pref;
+    private TerremotosDB terremotoDB;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        listaTerremotos=new ArrayList<>();
-        pref= PreferenceManager.getDefaultSharedPreferences(getActivity());
-        int magnitud=Integer.parseInt(pref.getString(getString(R.string.MAGNITUDE_VALUES),"0.0"));
-        listaTerremotos= (ArrayList<Terremoto>) new TerremotosDB(getActivity()).getAllByMagnitude(magnitud);
-        //this , le digo al asyncTask que me avise a mi, como no soy de clase TareaDescargaTerremotosInterface
-        //tengo que implementar la interface y definir el terremoto
-        /*BD
-        TareaDescargaTerremotos tarea=new TareaDescargaTerremotos(getActivity(),this);
-        //crea un nuevo thread y llama al do in background
-        tarea.execute(getString(R.string.urlTerremotos));
-         */
-        /*Thread t=new Thread(new Runnable() {
-            @Override
-            public void run() {
-                actualizarTerremotos();
-            }
-        });
-        t.start();*/
+        listaTerremotos = new ArrayList<>();
+        terremotoDB = new TerremotosDB(getActivity());
+        pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view= super.onCreateView(inflater, container, savedInstanceState);
-       // aa= new ArrayAdapter<Terremoto>(getActivity(), R.layout.terremoto_list_item,listaTerremotos);
-        aa= new TerremotoAdapter(getActivity(), R.layout.terremoto_list_item,listaTerremotos);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        // aa= new ArrayAdapter<Terremoto>(getActivity(), R.layout.terremoto_list_item,listaTerremotos);
+        aa = new TerremotoAdapter(getActivity(), R.layout.terremoto_list_item, listaTerremotos);
 
         setListAdapter(aa);
         return view;
     }
 
-
-   /* public void annadirTerremoto(Terremoto terremoto) {
-        double minMagnitude=Double.parseDouble(pref.getString(getString(R.string.MAGNITUDE_VALUES), "0"));
-        if(minMagnitude<=terremoto.getMagnitud()){
-            listaTerremotos.add(0,terremoto);
-            aa.notifyDataSetChanged();
-        }
-    }
-*/
-   /* @Override
-    public void notifyTotal(int total) {
-        String msg=getString(R.string.num_terremotos,total);
-        Toast t= Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT);
-        t.show();
-    }*/
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
@@ -100,6 +72,49 @@ public class TerremotoListFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
+        int magnitud = Integer.parseInt(pref.getString(getString(R.string.MAGNITUDE_VALUES), "0"));
+        listaTerremotos.clear();
+        listaTerremotos.addAll(terremotoDB.getAllByMagnitude(magnitud));
+        aa.notifyDataSetChanged();
+    }
 
+    private void comentarios(){
+    /*Eliminado al añadir la base de datos*/
+
+    /* public void annadirTerremoto(Terremoto terremoto) {
+        double minMagnitude=Double.parseDouble(pref.getString(getString(R.string.MAGNITUDE_VALUES), "0"));
+        if(minMagnitude<=terremoto.getMagnitud()){
+            listaTerremotos.add(0,terremoto);
+            aa.notifyDataSetChanged();
+        }
+    }
+    */
+    /* @Override
+    public void notifyTotal(int total) {
+        String msg=getString(R.string.num_terremotos,total);
+        Toast t= Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT);
+        t.show();
+    }*/
+    /*public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        listaTerremotos = new ArrayList<>();
+        terremotoDB=new TerremotosDB(getActivity());
+        pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        //this , le digo al asyncTask que me avise a mi, como no soy de clase TareaDescargaTerremotosInterface
+        //tengo que implementar la interface y definir el terremoto
+        /*BD
+        TareaDescargaTerremotos tarea=new TareaDescargaTerremotos(getActivity(),this);
+        //crea un nuevo thread y llama al do in background
+        tarea.execute(getString(R.string.urlTerremotos));
+         */
+        /*Thread t=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                actualizarTerremotos();
+            }
+        });
+        t.start();
+    }*/
     }
 }

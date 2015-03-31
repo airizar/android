@@ -33,7 +33,7 @@ public class TerremotosDB {
     public static final String DEPTH = "depth";
     public static final String URL_TERREMOTOS = "url";
     public static final String TIME = "time";
-    public static final String[] ALL_COLLUMNS={ID,PLACE,MAGNITUDE,LAT,LON,DEPTH,URL_TERREMOTOS,TIME};
+    public static final String[] ALL_COLLUMNS = {ID, PLACE, MAGNITUDE, LAT, LON, DEPTH, URL_TERREMOTOS, TIME};
     private static final String DB = "DB";
     private SQLiteDatabase db;
     private TerremotosOpenHelper helper;
@@ -42,21 +42,22 @@ public class TerremotosDB {
         helper = new TerremotosOpenHelper(context, TerremotosOpenHelper.DATABASE_NAME, null, TerremotosOpenHelper.DATABASE_VERSION);
         this.db = helper.getWritableDatabase();
     }
+
     //Polimorfismo, al utilizar list despues puedo cambiar el resultado a cualquier clase que
     // implemente a list sin tener ningun problema
-    public List<Terremoto> query(String where,String[] whereArgs) {
-   // public ArrayList<Terremoto> query(String where,String[] whereArgs) {
+    public List<Terremoto> query(String where, String[] whereArgs) {
+        // public ArrayList<Terremoto> query(String where,String[] whereArgs) {
         //String magnitudString = String.valueOf(magnitud);
 
         String groupBy = null;
         String having = null;
-        String order = TIME+ " DESC";
+        String order = TIME + " DESC";
         Cursor cursor = db.query(TerremotosOpenHelper.DATABASE_TABLE, ALL_COLLUMNS, where, whereArgs, groupBy, having, order);
         ArrayList<Terremoto> terremotos = new ArrayList<>();
         //HashMap para obtener los indices de las columnas
-        HashMap<String,Integer> indexes=new HashMap<>();
-        for (int i = 0; i < ALL_COLLUMNS.length ; i++) {
-            indexes.put(ALL_COLLUMNS[i],cursor.getColumnIndex(ALL_COLLUMNS[i]));
+        HashMap<String, Integer> indexes = new HashMap<>();
+        for (int i = 0; i < ALL_COLLUMNS.length; i++) {
+            indexes.put(ALL_COLLUMNS[i], cursor.getColumnIndex(ALL_COLLUMNS[i]));
         }
 
         while (cursor.moveToNext()) {
@@ -73,13 +74,15 @@ public class TerremotosDB {
         return terremotos;
 
     }
-    public List<Terremoto> getAll(){
-        return query(null,null);
+
+    public List<Terremoto> getAll() {
+        return query(null, null);
     }
-    public List<Terremoto> getAllByMagnitude(int magnitude){
-        String where=MAGNITUDE+ " >=?";
-        String[] whereArgs={String.valueOf(magnitude)};
-        return query(where,whereArgs);
+
+    public List<Terremoto> getAllByMagnitude(int magnitude) {
+        String where = MAGNITUDE + " >=?";
+        String[] whereArgs = {String.valueOf(magnitude)};
+        return query(where, whereArgs);
     }
 
     public void annadirTerremoto(Terremoto terremoto) {
@@ -94,12 +97,10 @@ public class TerremotosDB {
         newValues.put(TIME, terremoto.getTime().getTime());
         try {
             db.insertOrThrow(TerremotosOpenHelper.DATABASE_TABLE, null, newValues);
-        }catch (SQLiteException ex){
-            Log.d(DB,ex.toString());
+        } catch (SQLiteException ex) {
+            Log.d(DB, ex.toString());
         }
     }
-
-
 
 
     private static class TerremotosOpenHelper extends SQLiteOpenHelper {

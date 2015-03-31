@@ -29,8 +29,8 @@ public class DetalleTerremoto extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_terremoto);
-        Intent intent=getIntent();
-        terremoto= (Terremoto) intent.getSerializableExtra(TerremotoListFragment.TERREMOTO_ITEM);
+        Intent intent = getIntent();
+        terremoto = (Terremoto) intent.getSerializableExtra(TerremotoListFragment.TERREMOTO_ITEM);
         Log.d(DETALLE, terremoto.get_id());
 
         getLayoutElements();
@@ -41,30 +41,22 @@ public class DetalleTerremoto extends ActionBarActivity {
     }
 
     private void setDataOnElements() {
-        Log.d(DETALLE,"1");
         lblLugar.setText(terremoto.getLugar());
-        Log.d(DETALLE,"2");
         lblMag.setText(String.valueOf(terremoto.getMagnitud()));
-        Log.d(DETALLE,"3");
         lblProf.setText(String.valueOf(terremoto.getCoord().getProdundidad()));
-        Log.d(DETALLE,"4");
         lblLon.setText(String.valueOf(terremoto.getCoord().getLon()));
-        Log.d(DETALLE,"5");
         lblLat.setText(String.valueOf(terremoto.getCoord().getLat()));
-        Log.d(DETALLE,"6");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        Log.d(DETALLE,"7");
         lblFecha.setText(sdf.format(terremoto.getTime()));
-        Log.d(DETALLE,"8");
     }
 
     private void getLayoutElements() {
-       lblFecha= (TextView) findViewById(R.id.lblFecha);
-        lblLat= (TextView) findViewById(R.id.lblLat);
-        lblLon= (TextView) findViewById(R.id.lblLon);
-        lblLugar= (TextView) findViewById(R.id.lblLugar);
-        lblMag= (TextView) findViewById(R.id.lblMag);
-        lblProf= (TextView) findViewById(R.id.lblProf);
+        lblFecha = (TextView) findViewById(R.id.lblFecha);
+        lblLat = (TextView) findViewById(R.id.lblLat);
+        lblLon = (TextView) findViewById(R.id.lblLon);
+        lblLugar = (TextView) findViewById(R.id.lblLugar);
+        lblMag = (TextView) findViewById(R.id.lblMag);
+        lblProf = (TextView) findViewById(R.id.lblProf);
 
     }
 

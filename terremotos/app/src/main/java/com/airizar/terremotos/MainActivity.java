@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.airizar.terremotos.tasks.TareaDescargaTerremotos;
 
 
-public class MainActivity extends ActionBarActivity  implements TareaDescargaTerremotos.AnnadirTerremotoInterface{
+public class MainActivity extends ActionBarActivity implements TareaDescargaTerremotos.AnnadirTerremotoInterface {
 
     public static final int PREFERENCES_ACTIVITY = 1;
 
@@ -38,8 +38,8 @@ public class MainActivity extends ActionBarActivity  implements TareaDescargaTer
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent prefIntent=new Intent(this,SettingsActivity.class);
-            startActivityForResult(prefIntent,PREFERENCES_ACTIVITY);
+            Intent prefIntent = new Intent(this, SettingsActivity.class);
+            startActivityForResult(prefIntent, PREFERENCES_ACTIVITY);
         }
 
         return super.onOptionsItemSelected(item);
@@ -52,12 +52,13 @@ public class MainActivity extends ActionBarActivity  implements TareaDescargaTer
 
     @Override
     public void notifyTotal(int total) {
-        String msg=getString(R.string.num_terremotos,total);
-        Toast t= Toast.makeText(this,msg,Toast.LENGTH_SHORT);
+        String msg = getString(R.string.num_terremotos, total);
+        Toast t = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         t.show();
     }
-    public void descargaTerremotos(){
-        TareaDescargaTerremotos tarea=new TareaDescargaTerremotos(this,this);
+
+    public void descargaTerremotos() {
+        TareaDescargaTerremotos tarea = new TareaDescargaTerremotos(this, this);
         //crea un nuevo thread y llama al do in background
         tarea.execute(getString(R.string.urlTerremotos));
     }

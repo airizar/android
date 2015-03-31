@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * Created by cursomovil on 25/03/15.
  * Terremoto: no se le pasa desde fuera
  */
-public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer> {
+public class TareaDescargaTerremotos extends AsyncTask<String, Terremoto, Integer> {
 
     private TerremotosDB terremotosDB;
     private static final String DB = "DB";
@@ -34,14 +34,14 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
     private static final String TERREMOTO = "TERREMOTO";
     private final AnnadirTerremotoInterface target;
 
-    public interface AnnadirTerremotoInterface{
-       //public void annadirTerremoto(Terremoto terremoto);
-       public void notifyTotal(int total);
-   }
+    public interface AnnadirTerremotoInterface {
+        //public void annadirTerremoto(Terremoto terremoto);
+        public void notifyTotal(int total);
+    }
 
-    public TareaDescargaTerremotos(Context context,AnnadirTerremotoInterface target) {
-        this.target=target;
-        terremotosDB=new TerremotosDB(context);
+    public TareaDescargaTerremotos(Context context, AnnadirTerremotoInterface target) {
+        this.target = target;
+        terremotosDB = new TerremotosDB(context);
     }
 
     /*
@@ -49,9 +49,9 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
          */
     @Override
     protected Integer doInBackground(String... params) {
-        int count =0;
-        if(params.length>0){
-            count=actualizarTerremotos(params[0]);
+        int count = 0;
+        if (params.length > 0) {
+            count = actualizarTerremotos(params[0]);
 
         }
         return new Integer(count);
@@ -73,7 +73,7 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
 
     private int actualizarTerremotos(String urlTerremotos) {
         //String urlTerrremotos = getString(R.string.urlTerremotos);
-        int count=0;
+        int count = 0;
         try {
             URL url = new URL(urlTerremotos);
             URLConnection connection = url.openConnection();
@@ -91,7 +91,7 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
 
                 JSONObject json = new JSONObject(responseStrBuilder.toString());
                 JSONArray terremotos = json.getJSONArray("features");
-                count=terremotos.length();
+                count = terremotos.length();
                 for (int i = terremotos.length() - 1; i >= 0; i--) {
                     procesarTerremotos(terremotos.getJSONObject(i));
                 }
@@ -109,20 +109,18 @@ public class TareaDescargaTerremotos extends AsyncTask<String,Terremoto,Integer>
 
     private void procesarTerremotos(JSONObject jsonObject) {
         try {
-            String id=jsonObject.getString("id");
-            JSONArray coordJson=jsonObject.getJSONObject("geometry").getJSONArray("coordinates");
-            Coordenada coords=new Coordenada(coordJson.getDouble(0),coordJson.getDouble(1),coordJson.getDouble(2));
-            JSONObject jsonPropiedades=jsonObject.getJSONObject("properties");
-            Terremoto terremoto=new Terremoto();
+            String id = jsonObject.getString("id");
+            JSONArray coordJson = jsonObject.getJSONObject("geometry").getJSONArray("coordinates");
+            Coordenada coords = new Coordenada(coordJson.getDouble(0), coordJson.getDouble(1), coordJson.getDouble(2));
+            JSONObject jsonPropiedades = jsonObject.getJSONObject("properties");
+            Terremoto terremoto = new Terremoto();
             terremoto.set_id(id);
             terremoto.setCoord(coords);
             terremoto.setLugar(jsonPropiedades.getString("place"));
             terremoto.setMagnitud(jsonPropiedades.getDouble("mag"));
             terremoto.setTime(jsonPropiedades.getLong("time"));
             terremoto.setUrl(jsonPropiedades.getString("url"));
-            Log.d(TERREMOTO, id+" : "+terremoto.toString());
-
-
+            Log.d(TERREMOTO, id + " : " + terremoto.toString());
             //para sincronizarme con la vista y avisarle de que tengo un dato util para la vista,
             // mediante publishprogress (que llamara a on progressupdate)
             terremotosDB.annadirTerremoto(terremoto);

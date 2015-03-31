@@ -11,7 +11,7 @@ import android.util.Log;
 /**
  * Created by cursomovil on 26/03/15.
  */
-public class SettingsActivity extends PreferenceActivity  {
+public class SettingsActivity extends PreferenceActivity {
 
 
     @Override

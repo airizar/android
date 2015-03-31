@@ -22,28 +22,29 @@ import java.util.List;
  */
 public class TerremotoAdapter extends ArrayAdapter<Terremoto> {
     private int resource;
+
     public TerremotoAdapter(Context context, int resource, List<Terremoto> objects) {
         super(context, resource, objects);
-        this.resource=resource;
+        this.resource = resource;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout layout;
-        if(convertView==null){
+        if (convertView == null) {
             //si no existe la vista, la creamos
-            layout=new LinearLayout(getContext());
+            layout = new LinearLayout(getContext());
             LayoutInflater li;
-            String inflater=Context.LAYOUT_INFLATER_SERVICE;
-            li=(LayoutInflater)getContext().getSystemService(inflater);
-            li.inflate(resource,layout,true);
-        }else{
-            layout=(LinearLayout)convertView;
+            String inflater = Context.LAYOUT_INFLATER_SERVICE;
+            li = (LayoutInflater) getContext().getSystemService(inflater);
+            li.inflate(resource, layout, true);
+        } else {
+            layout = (LinearLayout) convertView;
         }
         Terremoto item = getItem(position);
-        TextView txtMag=(TextView) layout.findViewById(R.id.txtMag);
-        TextView txtLugar=(TextView) layout.findViewById(R.id.txtLugar);
-        TextView txtFecha=(TextView) layout.findViewById(R.id.txtFech);
+        TextView txtMag = (TextView) layout.findViewById(R.id.txtMag);
+        TextView txtLugar = (TextView) layout.findViewById(R.id.txtLugar);
+        TextView txtFecha = (TextView) layout.findViewById(R.id.txtFech);
 
         txtMag.setText(String.valueOf(item.getMagnitud()));
         txtLugar.setText(item.getLugar());
@@ -55,11 +56,11 @@ public class TerremotoAdapter extends ArrayAdapter<Terremoto> {
     }
 
 
-//    TextView lblTask = (TextView) layout.findViewById(R.id.lblTask);
-//    TextView lblCreated = (TextView) layout.findViewById(R.id.lblCreated);
-//    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-//
-//    lblTask.setText(item.getTask());
-//    lblCreated.setText(sdf.format(item.getCreated()));
-//    return layout;
+        //    TextView lblTask = (TextView) layout.findViewById(R.id.lblTask);
+        //    TextView lblCreated = (TextView) layout.findViewById(R.id.lblCreated);
+        //    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        //
+        //    lblTask.setText(item.getTask());
+        //    lblCreated.setText(sdf.format(item.getCreated()));
+        //    return layout;
 }

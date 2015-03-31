@@ -27,15 +27,15 @@ public class SettingsFragment extends PreferenceFragment implements SharedPrefer
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         prefs.registerOnSharedPreferenceChangeListener(this);
     }
+
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         Log.d(CHANGE_KEY, "key " + key);
-        //String MAGNITUDE_VALUES=getString(R.string.MAGNITUDE_VALUES);
-        String AUTO_REFRESH=getString(R.string.AUTO_REFRESH);
-        String PREF_UPDATE_INTERVAL=getString(R.string.PREF_UPDATE_INTERVAL);
-        if(key.equals(AUTO_REFRESH)){
+        String AUTO_REFRESH = getString(R.string.AUTO_REFRESH);
+        String PREF_UPDATE_INTERVAL = getString(R.string.PREF_UPDATE_INTERVAL);
+        if (key.equals(AUTO_REFRESH)) {
             //start/stop autorefresh
-        }else if(key.equals(PREF_UPDATE_INTERVAL)){
+        } else if (key.equals(PREF_UPDATE_INTERVAL)) {
             //Change auto regresh interval
         }
        /* if(key.equals(MAGNITUDE_VALUES)) {

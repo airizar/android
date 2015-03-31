@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Created by cursomovil on 25/03/15.
  */
-public class Terremoto implements Serializable{
+public class Terremoto implements Serializable {
 
     /**
      * Identificador
@@ -61,6 +61,7 @@ public class Terremoto implements Serializable{
     public void setTime(Date time) {
         this.time = time;
     }
+
     public void setTime(long time) {
         this.time = new Date(time);
     }
@@ -90,7 +91,7 @@ public class Terremoto implements Serializable{
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.getLugar();
     }
 
