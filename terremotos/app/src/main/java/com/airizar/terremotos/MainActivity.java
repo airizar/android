@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.airizar.terremotos.services.ServicioDescargaTerremotos;
 import com.airizar.terremotos.tasks.TareaDescargaTerremotos;
 
 
@@ -56,10 +57,17 @@ public class MainActivity extends ActionBarActivity implements TareaDescargaTerr
         Toast t = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         t.show();
     }
-
     public void descargaTerremotos() {
-        TareaDescargaTerremotos tarea = new TareaDescargaTerremotos(this, this);
-        //crea un nuevo thread y llama al do in background
-        tarea.execute(getString(R.string.urlTerremotos));
+        Intent download=new Intent(this, ServicioDescargaTerremotos.class);
+        startService(download);
     }
+    public void comentarios(){
+    //Comentado para cambiar a usar los servicios
+//        public void descargaTerremotos() {
+//            TareaDescargaTerremotos tarea = new TareaDescargaTerremotos(this, this);
+//            //crea un nuevo thread y llama al do in background
+//            tarea.execute(getString(R.string.urlTerremotos));
+//        }
+    }
+
 }

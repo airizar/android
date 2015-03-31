@@ -1,13 +1,15 @@
-package com.airizar.terremotos.tasks;
+package com.airizar.terremotos.services;
 
-import android.content.Context;
-import android.os.AsyncTask;
+import android.app.Service;
+import android.content.Intent;
+import android.os.IBinder;
 import android.util.Log;
 
 import com.airizar.terremotos.R;
 import com.airizar.terremotos.database.TerremotosDB;
 import com.airizar.terremotos.model.Coordenada;
 import com.airizar.terremotos.model.Terremoto;
+import com.airizar.terremotos.tasks.TareaDescargaTerremotos;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,55 +22,26 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 
-/**
- * Created by cursomovil on 25/03/15.
- * Terremoto: no se le pasa desde fuera
- */
-public class TareaDescargaTerremotos extends AsyncTask<String, Terremoto, Integer> {
-
+public class ServicioDescargaTerremotos extends Service {
     private TerremotosDB terremotosDB;
-    private static final String DB = "DB";
-    public static final String TAG = "CONNECTION";
-    public static final String TERREMOTO = "TERREMOTO";
-    private final AnnadirTerremotoInterface target;
-
-    public interface AnnadirTerremotoInterface {
-        //public void annadirTerremoto(Terremoto terremoto);
-        public void notifyTotal(int total);
-    }
-
-    public TareaDescargaTerremotos(Context context, AnnadirTerremotoInterface target) {
-        this.target = target;
-        terremotosDB = new TerremotosDB(context);
-    }
-
-    /*
-           Esto es nuestro Thread
-         */
     @Override
-    protected Integer doInBackground(String... params) {
-        int count = 0;
-        if (params.length > 0) {
-            count = actualizarTerremotos(params[0]);
-
-        }
-        return new Integer(count);
+    public void onCreate() {
+        super.onCreate();
+        terremotosDB=new TerremotosDB(this);
     }
 
     @Override
-    protected void onProgressUpdate(Terremoto... terremoto) {
-        super.onProgressUpdate(terremoto);
-        //Si lo ponemos aqui no sirve porque el asinktask se queda inutil
-        //terremotosDB.annadirTerremoto(terremoto[0]);
-        //target.annadirTerremoto(terremoto[0]);
-    }
-
-    @Override
-    protected void onPostExecute(Integer count) {
-        super.onPostExecute(count);
-        target.notifyTotal(count.intValue());
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        Thread t=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                actualizarTerremotos(getString(R.string.urlTerremotos));
+            }
+        });
+        t.start();
+        return Service.START_STICKY;
     }
 
     private int actualizarTerremotos(String urlTerremotos) {
@@ -97,9 +70,9 @@ public class TareaDescargaTerremotos extends AsyncTask<String, Terremoto, Intege
                 }
             }
         } catch (MalformedURLException e) {
-            Log.d(TAG, "Malformed	URL	Exception.", e);
+            Log.d(TareaDescargaTerremotos.TAG, "Malformed	URL	Exception.", e);
         } catch (IOException e) {
-            Log.d(TAG, "IO	Exception.", e);
+            Log.d(TareaDescargaTerremotos.TAG, "IO	Exception.", e);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -120,17 +93,19 @@ public class TareaDescargaTerremotos extends AsyncTask<String, Terremoto, Intege
             terremoto.setMagnitud(jsonPropiedades.getDouble("mag"));
             terremoto.setTime(jsonPropiedades.getLong("time"));
             terremoto.setUrl(jsonPropiedades.getString("url"));
-            Log.d(TERREMOTO, id + " : " + terremoto.toString());
+            Log.d(TareaDescargaTerremotos.TERREMOTO, id + " : " + terremoto.toString());
             //para sincronizarme con la vista y avisarle de que tengo un dato util para la vista,
             // mediante publishprogress (que llamara a on progressupdate)
             terremotosDB.annadirTerremoto(terremoto);
-            publishProgress(terremoto);
+            //publishProgress(terremoto);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
     }
-
-
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 }
