@@ -120,7 +120,7 @@ public class TareaDescargaTerremotos extends AsyncTask<String, Terremoto, Intege
             terremoto.setMagnitud(jsonPropiedades.getDouble("mag"));
             terremoto.setTime(jsonPropiedades.getLong("time"));
             terremoto.setUrl(jsonPropiedades.getString("url"));
-            Log.d(TERREMOTO, id + " : " + terremoto.toString());
+           // Log.d(TERREMOTO, id + " : " + terremoto.toString());
             //para sincronizarme con la vista y avisarle de que tengo un dato util para la vista,
             // mediante publishprogress (que llamara a on progressupdate)
             terremotosDB.annadirTerremoto(terremoto);

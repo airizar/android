@@ -13,7 +13,7 @@
             android:dependency="@string/AUTO_REFRESH"
             android:summary="@string/Auto_Refresh_Interval"
             android:title="@string/Auto_Refresh_Interval_Summary"
-            android:defaultValue="5" />
+            android:defaultValue="@integer/default_interval" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/terremotos_filter">
         <ListPreference
