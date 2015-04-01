@@ -1,0 +1,57 @@
+package com.airizar.geolocation;
+
+import android.location.Criteria;
+import android.location.LocationManager;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
+
+import com.airizar.geolocation.listeners.GeoLocListener;
+
+
+public class MainActivity extends ActionBarActivity implements GeoLocListener.AddLocationInterface{
+    private TextView lblLat;
+    private TextView lblLon;
+    private TextView lblAlt;
+    private TextView lblSpeed;
+
+    private String provider;
+    private  LocationManager locationManager;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        TextView lblLat = (TextView) findViewById(R.id.lblLat);
+        TextView lblLon = (TextView) findViewById(R.id.lblLon);
+        TextView lblAlt = (TextView) findViewById(R.id.lblAlt);
+        TextView lblSpeed = (TextView) findViewById(R.id.lblSpeed);
+
+        getLocationProvider();
+        listenLocationChanges();
+    }
+
+    private void listenLocationChanges() {
+        int t=5000;
+        int distance= 5;
+
+        locationManager.requestLocationUpdates(provider,t,distance,new GeoLocListener());
+    }
+
+    private void getLocationProvider() {
+        locationManager= (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        Criteria criteria=new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        criteria.setSpeedRequired(true);
+        criteria.setAltitudeRequired(true);
+
+        provider=locationManager.getBestProvider(criteria,true);
+
+    }
+
+
+}
