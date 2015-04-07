@@ -13,12 +13,13 @@ public class GeoLocListener implements LocationListener {
         public void addLocation(Location location);
     }
     private AddLocationInterface target;
-    public (AddLocationInterface target){
-        this target)target;
+
+    public GeoLocListener(AddLocationInterface target){
+        this.target=target;
     }
     @Override
     public void onLocationChanged(Location location) {
-        location.getLatitude();
+        target.addLocation(location);
     }
 
     @Override
