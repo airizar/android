@@ -25,6 +25,7 @@ public class MainActivity extends ActionBarActivity  implements GoogleApiClient.
     private GoogleApiClient mGoogleApiClient;
     private boolean accesoGPS=false;
     private boolean status=false;
+    private Location mLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,15 @@ public class MainActivity extends ActionBarActivity  implements GoogleApiClient.
     }
 
     private void obtenerPosicionActual(){
-        
+        //si esta conectado
+        if(status) {
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                    mGoogleApiClient);
+            if (mLastLocation != null) {
+               lblLatitud.setText(String.valueOf(mLastLocation.getLatitude()));
+               lblLongitud.setText(String.valueOf(mLastLocation.getLongitude()));
+            }
+        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
