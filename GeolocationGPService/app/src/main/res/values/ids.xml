@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="status" type="id">estado</item>
+    <item name="lblLat" type="id">lblLat</item>
+    <item name="lblLon" type="id">lblLon</item>
+    <item name="btnLocActual" type="id">Localizacion actual</item>
+    <item name="btnLocUpdate" type="id">Lanzar escuchador</item>
+</resources>
