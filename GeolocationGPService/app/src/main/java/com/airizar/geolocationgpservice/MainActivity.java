@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -62,7 +63,7 @@ public class MainActivity extends ActionBarActivity  implements GoogleApiClient.
         }
     }
 
-    private void obtenerPosicionActual(){
+    public void obtenerPosicionActual(View v){
         //si esta conectado
         if(status) {
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
