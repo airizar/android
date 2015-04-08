@@ -1,16 +1,12 @@
 package com.airizar.terremotos;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.airizar.terremotos.Alarms.AlarmMGR;
 import com.airizar.terremotos.services.ServicioDescargaTerremotos;
 import com.airizar.terremotos.tasks.TareaDescargaTerremotos;
 
@@ -18,8 +14,6 @@ import com.airizar.terremotos.tasks.TareaDescargaTerremotos;
 public class MainActivity extends ActionBarActivity implements TareaDescargaTerremotos.AnnadirTerremotoInterface {
 
     public static final int PREFERENCES_ACTIVITY = 1;
-    private static final String TERREMOTO_PREFS = "TERREMOTO_PREFS";
-    private static final String LAUNCHED_BEFORE = "LAUNCHED_BEFORE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,20 +57,12 @@ public class MainActivity extends ActionBarActivity implements TareaDescargaTerr
         Toast t = Toast.makeText(this, msg, Toast.LENGTH_SHORT);
         t.show();
     }
-
     public void descargaTerremotos() {
-        //Intent download=new Intent(this, ServicioDescargaTerremotos.class);
-        //startService(download);
-        SharedPreferences prefs = getSharedPreferences(TERREMOTO_PREFS, Activity.MODE_PRIVATE);
-        if (!prefs.getBoolean(LAUNCHED_BEFORE, false)) {
-            long defaultInterval = getResources().getInteger(R.integer.default_interval) * 60 * 1000;
-            AlarmMGR.setAlarm(this, defaultInterval);
-            prefs.edit().putBoolean(LAUNCHED_BEFORE,true).apply();
-        }
+        Intent download=new Intent(this, ServicioDescargaTerremotos.class);
+        startService(download);
     }
-
-    public void comentarios() {
-        //Comentado para cambiar a usar los servicios
+    public void comentarios(){
+    //Comentado para cambiar a usar los servicios
 //        public void descargaTerremotos() {
 //            TareaDescargaTerremotos tarea = new TareaDescargaTerremotos(this, this);
 //            //crea un nuevo thread y llama al do in background

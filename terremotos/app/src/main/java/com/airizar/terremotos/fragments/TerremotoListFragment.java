@@ -49,7 +49,6 @@ public class TerremotoListFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-
         // aa= new ArrayAdapter<Terremoto>(getActivity(), R.layout.terremoto_list_item,listaTerremotos);
         aa = new TerremotoAdapter(getActivity(), R.layout.terremoto_list_item, listaTerremotos);
 

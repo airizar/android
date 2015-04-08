@@ -13,8 +13,11 @@
         android:text="adsasda"
         android:textSize="@dimen/abc_text_size_large_material"
         android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/abc_action_bar_default_padding_material"
         android:gravity="center_horizontal"
-        android:padding="@dimen/abc_button_padding_horizontal_material" />
+        android:layout_marginLeft="@dimen/abc_control_corner_material"
+        android:layout_marginRight="@dimen/abc_control_corner_material"
+        android:layout_marginBottom="@dimen/abc_control_corner_material" />
 
     <LinearLayout
         android:orientation="vertical"

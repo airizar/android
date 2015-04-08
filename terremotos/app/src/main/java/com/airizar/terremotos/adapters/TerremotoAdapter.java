@@ -1,9 +1,6 @@
 package com.airizar.terremotos.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,36 +50,9 @@ public class TerremotoAdapter extends ArrayAdapter<Terremoto> {
         txtLugar.setText(item.getLugar());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         txtFecha.setText(sdf.format(item.getTime()));
-        txtMag.setBackgroundColor(selectColor(txtMag.getText().toString()));
 
-        Color c=new Color();
+
         return layout;
-    }
-    private int selectColor(String mag){
-        int color=android.R.color.transparent;
-        double magnitud=Double.parseDouble(mag);
-        if (magnitud<=0 && magnitud>1){
-           color=getContext().getResources().getColor(R.color.degRtoG_1);
-        }else if (magnitud<=1 && magnitud>2){
-            color=getContext().getResources().getColor(R.color.degRtoG_2);
-        }else if (magnitud<=2 && magnitud>3){
-            color=getContext().getResources().getColor(R.color.degRtoG_3);
-        }else if (magnitud<=3 && magnitud>4){
-            color=getContext().getResources().getColor(R.color.degRtoG_4);
-        }else if (magnitud<=4 && magnitud>5){
-            color=getContext().getResources().getColor(R.color.degRtoG_5);
-        }else if (magnitud<=5 && magnitud>6){
-            color=getContext().getResources().getColor(R.color.degRtoG_6);
-        }else if (magnitud<=6 && magnitud>7){
-            color=getContext().getResources().getColor(R.color.degRtoG_7);
-        }else if (magnitud<=7 && magnitud>8){
-            color=getContext().getResources().getColor(R.color.degRtoG_8);
-        }else if (magnitud<=8 && magnitud>9){
-            color=getContext().getResources().getColor(R.color.degRtoG_9);
-        }else if (magnitud<=9 && magnitud>10){
-            color=getContext().getResources().getColor(R.color.degRtoG_10);
-        }
-        return color;
     }
 
 

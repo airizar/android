@@ -25,8 +25,6 @@ import java.net.URLConnection;
 
 public class ServicioDescargaTerremotos extends Service {
     private TerremotosDB terremotosDB;
-    private static final String SERVICIO="SERVICIO TERREMOTOS";
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -39,9 +37,7 @@ public class ServicioDescargaTerremotos extends Service {
         Thread t=new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.d(SERVICIO, "Servicio terremoto onStartCommand");
                 actualizarTerremotos(getString(R.string.urlTerremotos));
-
             }
         });
         t.start();
@@ -72,7 +68,6 @@ public class ServicioDescargaTerremotos extends Service {
                 for (int i = terremotos.length() - 1; i >= 0; i--) {
                     procesarTerremotos(terremotos.getJSONObject(i));
                 }
-                Log.d(TareaDescargaTerremotos.TERREMOTO,"Terremotos descargados");
             }
         } catch (MalformedURLException e) {
             Log.d(TareaDescargaTerremotos.TAG, "Malformed	URL	Exception.", e);
@@ -98,7 +93,7 @@ public class ServicioDescargaTerremotos extends Service {
             terremoto.setMagnitud(jsonPropiedades.getDouble("mag"));
             terremoto.setTime(jsonPropiedades.getLong("time"));
             terremoto.setUrl(jsonPropiedades.getString("url"));
-            //Log.d(TareaDescargaTerremotos.TERREMOTO, id + " : " + terremoto.toString());
+            Log.d(TareaDescargaTerremotos.TERREMOTO, id + " : " + terremoto.toString());
             //para sincronizarme con la vista y avisarle de que tengo un dato util para la vista,
             // mediante publishprogress (que llamara a on progressupdate)
             terremotosDB.annadirTerremoto(terremoto);
