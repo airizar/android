@@ -1,37 +1,61 @@
 package com.airizar.terremotos;
 
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TabHost;
 import android.widget.Toast;
 
-<<<<<<< HEAD
-=======
-import com.airizar.terremotos.Alarms.AlarmMGR;
-import com.airizar.terremotos.maps.MapsActivity;
->>>>>>> 0498eebee4e466e46650b711384e449ad34c118f
+import com.airizar.terremotos.fragments.MapaFragment;
+import com.airizar.terremotos.fragments.TerremotoListFragment;
+import com.airizar.terremotos.listeners.TabListener;
 import com.airizar.terremotos.services.ServicioDescargaTerremotos;
 import com.airizar.terremotos.tasks.TareaDescargaTerremotos;
 
 
-public class MainActivity extends ActionBarActivity implements TareaDescargaTerremotos.AnnadirTerremotoInterface {
+public class MainActivity extends Activity implements TareaDescargaTerremotos.AnnadirTerremotoInterface {
 
     public static final int PREFERENCES_ACTIVITY = 1;
-<<<<<<< HEAD
-=======
+
     private static final int MAPS_ACTIVITY = 2;
     private static final String TERREMOTO_PREFS = "TERREMOTO_PREFS";
     private static final String LAUNCHED_BEFORE = "LAUNCHED_BEFORE";
->>>>>>> 0498eebee4e466e46650b711384e449ad34c118f
+    private TabHost mTabHost;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        createTabs();
         descargaTerremotos();
+    }
+
+    private void createTabs() {
+        ActionBar actionBar=getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        ActionBar.Tab tabLista	=	actionBar.newTab();
+
+        tabLista.setText(getString(R.string.lista))
+                .setContentDescription("Descripcion del contenido")
+
+                .setTabListener(new TabListener<TerremotoListFragment>
+                        (this,	R.id.fragmentContainer,TerremotoListFragment.class));
+
+        actionBar.addTab(tabLista);
+        ActionBar.Tab tabMapa	=	actionBar.newTab();
+
+        tabMapa.setText(getString(R.string.mapa))
+                .setContentDescription("Descripcion del contenido")
+
+                .setTabListener(new TabListener<MapaFragment>
+                        (this,	R.id.fragmentContainer,MapaFragment.class));
+
+        actionBar.addTab(tabMapa);
+
     }
 
 
@@ -53,9 +77,6 @@ public class MainActivity extends ActionBarActivity implements TareaDescargaTerr
         if (id == R.id.action_settings) {
             Intent prefIntent = new Intent(this, SettingsActivity.class);
             startActivityForResult(prefIntent, PREFERENCES_ACTIVITY);
-        }else if(id == R.id.map_markers) {
-            Intent prefIntent = new Intent(this, MapsActivity.class);
-            startActivityForResult(prefIntent, MAPS_ACTIVITY);
         }
 
 

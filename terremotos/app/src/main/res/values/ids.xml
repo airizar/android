@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="map_markers" type="id">activity_maps.xml</item>
+    <item name="tabhost" type="id">pestannas</item>
 </resources>

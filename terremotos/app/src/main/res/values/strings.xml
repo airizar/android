@@ -33,4 +33,6 @@
     <string name="lblUrl">lblUrl</string>
     <string name="title_activity_maps">Map</string>
     <string name="map_markers">Mapa</string>
+    <string name="lista">Lista</string>
+    <string name="mapa">Mapa</string>
 </resources>

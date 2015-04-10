@@ -8,6 +8,8 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.airizar.terremotos.fragments.SettingsFragment;
+
 /**
  * Created by cursomovil on 26/03/15.
  */

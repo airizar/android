@@ -30,6 +30,7 @@ public class TerremotoListFragment extends ListFragment {
     private static final String TAG = "CONECCTION";
     public static final String TERREMOTO = "TERREMOTO";
     public static final String TERREMOTO_ITEM = "TERREMOTO ITEM";
+    public static final String MAP_INFO = "DATA";
     private JSONObject json;
     private ArrayList<Terremoto> listaTerremotos;
     //
@@ -43,6 +44,7 @@ public class TerremotoListFragment extends ListFragment {
         listaTerremotos = new ArrayList<>();
         terremotoDB = new TerremotosDB(getActivity());
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
     }
 
 
@@ -75,6 +77,7 @@ public class TerremotoListFragment extends ListFragment {
         int magnitud = Integer.parseInt(pref.getString(getString(R.string.MAGNITUDE_VALUES), "0"));
         listaTerremotos.clear();
         listaTerremotos.addAll(terremotoDB.getAllByMagnitude(magnitud));
+
         aa.notifyDataSetChanged();
     }
 

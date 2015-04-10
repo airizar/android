@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.airizar.terremotos.database.TerremotosDB;
 import com.airizar.terremotos.model.Terremoto;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,6 +18,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
+
+import static com.airizar.terremotos.fragments.TerremotoListFragment.*;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,12 +32,17 @@ public class MapaFragment extends MapFragment implements GoogleMap.OnMapLoadedCa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View layout = super.onCreateView(inflater, container, savedInstanceState);
+
+
         map = getMap();
         map.setOnMapLoadedCallback(this);
 
         return layout;
 
     }
+
+
+
     public void setTerremotos(List<Terremoto> terremotos) {
         this.terremotos = terremotos;
     }
@@ -46,8 +54,7 @@ public class MapaFragment extends MapFragment implements GoogleMap.OnMapLoadedCa
         map.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
 
         for (int i = 0; i < terremotos.size(); i++) {
-            LatLng point = new LatLng(terremotos.get(i).getCoord().getLat(),
-                    terremotos.get(i).getCoord().getLon());
+            LatLng point = new LatLng(terremotos.get(i).getCoord().getLat(),terremotos.get(i).getCoord().getLon());
             MarkerOptions marker = new MarkerOptions()
                     .position(point)
                     .title(terremotos.get(i).getLugar())
@@ -61,13 +68,7 @@ public class MapaFragment extends MapFragment implements GoogleMap.OnMapLoadedCa
         LatLngBounds bounds = builder.build();
 
         CameraUpdate cu;
-         /*
-            LatLng ne = bounds.northeast;
-            LatLng sw = bounds.southwest;
-            restar para saber que latitud y que longitud se abarca, y si es menor que unos minimos abrandar el bounds
-         */
-
-        //Sustituir el anterior por este que solo comprueba que si tenemos un solo punto para hacer zoom
+       //Despues de animar la camara en el callback al acabar el movimiento aplicarle el zoom deseado
         if(terremotos.size()==1){
             cu = CameraUpdateFactory.newLatLngZoom(new LatLng(terremotos.get(0).getCoord().getLat(),
                     terremotos.get(0).getCoord().getLon()), 9);

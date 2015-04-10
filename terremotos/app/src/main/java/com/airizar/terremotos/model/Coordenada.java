@@ -19,7 +19,7 @@ public class Coordenada implements Serializable {
      */
     private double produndidad;
 
-    public Coordenada(double lat, double lon, double produndidad) {
+    public Coordenada(double lon, double lat, double produndidad) {
         this.lat = lat;
         this.lon = lon;
         this.produndidad = produndidad;
