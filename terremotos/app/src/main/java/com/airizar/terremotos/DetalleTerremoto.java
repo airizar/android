@@ -8,10 +8,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.airizar.terremotos.fragments.MapaFragment;
 import com.airizar.terremotos.fragments.TerremotoListFragment;
 import com.airizar.terremotos.model.Terremoto;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DetalleTerremoto extends ActionBarActivity {
@@ -22,7 +25,7 @@ public class DetalleTerremoto extends ActionBarActivity {
     private TextView lblProf;
     private TextView lblFecha;
     private Terremoto terremoto;
-
+    private MapaFragment mapFragment;
     private static final String DETALLE = "DETALLE";
 
     @Override
@@ -48,6 +51,7 @@ public class DetalleTerremoto extends ActionBarActivity {
         lblLat.setText(String.valueOf(terremoto.getCoord().getLat()));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         lblFecha.setText(sdf.format(terremoto.getTime()));
+        mostrarMapa(terremoto);
     }
 
     private void getLayoutElements() {
@@ -57,9 +61,13 @@ public class DetalleTerremoto extends ActionBarActivity {
         lblLugar = (TextView) findViewById(R.id.lblLugar);
         lblMag = (TextView) findViewById(R.id.lblMag);
         lblProf = (TextView) findViewById(R.id.lblProf);
-
+        mapFragment = (MapaFragment) getFragmentManager().findFragmentById(R.id.map);
     }
-
+    private void mostrarMapa(Terremoto terremoto) {
+        List<Terremoto> terremotos = new ArrayList<>();
+        terremotos.add(terremoto);
+        mapFragment.setTerremotos(terremotos);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
