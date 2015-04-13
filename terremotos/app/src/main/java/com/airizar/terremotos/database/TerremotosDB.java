@@ -84,6 +84,12 @@ public class TerremotosDB {
         String[] whereArgs = {String.valueOf(magnitude)};
         return query(where, whereArgs);
     }
+    public List<Terremoto> getTerremotoById(String id){
+        String where = ID + " >=?";
+        String[] whereArgs = {String.valueOf(id)};
+
+        return query(where,whereArgs);
+    }
 
     public void annadirTerremoto(Terremoto terremoto) {
         ContentValues newValues = new ContentValues();
@@ -100,6 +106,7 @@ public class TerremotosDB {
         } catch (SQLiteException ex) {
             Log.d(DB, ex.toString());
         }
+
     }
 
 

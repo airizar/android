@@ -67,6 +67,6 @@
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.airizar.terremotos.fragments.MapaFragment"
+        android:name="com.airizar.terremotos.fragments.MapaFragmentDetalle"
         android:layout_below="@+id/lblUrl" />
 </RelativeLayout>

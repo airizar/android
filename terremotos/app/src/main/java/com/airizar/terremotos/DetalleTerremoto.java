@@ -1,5 +1,6 @@
 package com.airizar.terremotos;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.airizar.terremotos.fragments.MapaFragment;
+import com.airizar.terremotos.fragments.MapaFragmentDetalle;
 import com.airizar.terremotos.fragments.TerremotoListFragment;
 import com.airizar.terremotos.model.Terremoto;
 
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DetalleTerremoto extends ActionBarActivity {
+public class DetalleTerremoto extends Activity {
     private TextView lblLugar;
     private TextView lblMag;
     private TextView lblLat;
@@ -25,7 +27,7 @@ public class DetalleTerremoto extends ActionBarActivity {
     private TextView lblProf;
     private TextView lblFecha;
     private Terremoto terremoto;
-    private MapaFragment mapFragment;
+    private MapaFragmentDetalle mapFragment;
     private static final String DETALLE = "DETALLE";
 
     @Override
@@ -35,12 +37,8 @@ public class DetalleTerremoto extends ActionBarActivity {
         Intent intent = getIntent();
         terremoto = (Terremoto) intent.getSerializableExtra(TerremotoListFragment.TERREMOTO_ITEM);
         Log.d(DETALLE, terremoto.get_id());
-
         getLayoutElements();
-
         setDataOnElements();
-
-
     }
 
     private void setDataOnElements() {
@@ -51,7 +49,7 @@ public class DetalleTerremoto extends ActionBarActivity {
         lblLat.setText(String.valueOf(terremoto.getCoord().getLat()));
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         lblFecha.setText(sdf.format(terremoto.getTime()));
-        mostrarMapa(terremoto);
+        //mostrarMapa(terremoto);
     }
 
     private void getLayoutElements() {
@@ -61,13 +59,15 @@ public class DetalleTerremoto extends ActionBarActivity {
         lblLugar = (TextView) findViewById(R.id.lblLugar);
         lblMag = (TextView) findViewById(R.id.lblMag);
         lblProf = (TextView) findViewById(R.id.lblProf);
-        mapFragment = (MapaFragment) getFragmentManager().findFragmentById(R.id.map);
+        /*mapFragment = (MapaFragmentDetalle) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.cargarTerremotos();*/
     }
-    private void mostrarMapa(Terremoto terremoto) {
+   /* Eliminado al añadir la clase abstracta
+        private void mostrarMapa(Terremoto terremoto) {
         List<Terremoto> terremotos = new ArrayList<>();
         terremotos.add(terremoto);
         mapFragment.setTerremotos(terremotos);
-    }
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

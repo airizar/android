@@ -43,7 +43,7 @@ public class TabListener<T> implements ActionBar.TabListener {
     public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
         if (fragment != null)
 
-            ft.attach(fragment);
+            ft.detach(fragment);
     }
 
     @Override
