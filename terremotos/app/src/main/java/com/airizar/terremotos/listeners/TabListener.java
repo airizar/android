@@ -34,7 +34,7 @@ public class TabListener<T> implements ActionBar.TabListener {
         if (fragment == null) {
             String fragmentName = fragmentClass.getName();
             fragment = Fragment.instantiate(activity, fragmentName);
-            ft.add(fragmentContainer, fragment, fragmentName);
+            ft.replace(fragmentContainer, fragment, fragmentName);
         } else
             ft.attach(fragment);
     }

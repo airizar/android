@@ -1,10 +1,15 @@
 package com.airizar.terremotos.services;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.airizar.terremotos.MainActivity;
 import com.airizar.terremotos.R;
 import com.airizar.terremotos.database.TerremotosDB;
 import com.airizar.terremotos.model.Coordenada;
@@ -68,6 +73,7 @@ public class ServicioDescargaTerremotos extends Service {
                 for (int i = terremotos.length() - 1; i >= 0; i--) {
                     procesarTerremotos(terremotos.getJSONObject(i));
                 }
+                sendNotifications(count);
             }
         } catch (MalformedURLException e) {
             Log.d(TareaDescargaTerremotos.TAG, "Malformed	URL	Exception.", e);
@@ -78,6 +84,22 @@ public class ServicioDescargaTerremotos extends Service {
             e.printStackTrace();
         }
         return count;
+    }
+
+    private void sendNotifications(int count) {
+        Intent intentToFire=new Intent(this, MainActivity.class);
+        PendingIntent activityIntent=PendingIntent.getActivity(this,0,intentToFire,0);
+        Notification.Builder builder=new Notification.Builder(ServicioDescargaTerremotos.this);
+        builder.setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.num_terremotos,count))
+                .setWhen(System.currentTimeMillis())
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setContentIntent(activityIntent);
+        Notification norification=builder.build();
+        NotificationManager notificationManager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        int NOTIFICATION_REF=1;
+        notificationManager.notify(NOTIFICATION_REF,norification);
     }
 
     private void procesarTerremotos(JSONObject jsonObject) {
@@ -104,6 +126,7 @@ public class ServicioDescargaTerremotos extends Service {
         }
 
     }
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;

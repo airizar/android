@@ -2,10 +2,14 @@ package com.airizar.terremotos.fragments;
 
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,6 +17,8 @@ import com.airizar.terremotos.R;
 import com.airizar.terremotos.database.TerremotosDB;
 import com.airizar.terremotos.fragments.abstracts.AbstractMapFragment;
 import com.airizar.terremotos.model.Terremoto;
+import com.airizar.terremotos.services.ServicioDescargaTerremotos;
+import com.airizar.terremotos.tasks.TareaDescargaTerremotos;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,6 +41,7 @@ public class MapaFragment extends AbstractMapFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         pref= PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
@@ -47,7 +54,20 @@ public class MapaFragment extends AbstractMapFragment{
 
     }
 
-
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_fragment,menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id=item.getItemId();
+        if(id==R.id.action_refresh){
+            Intent descarga=new Intent(getActivity(),ServicioDescargaTerremotos.class);
+            getActivity().startService(descarga);
+        }
+        return super.onOptionsItemSelected(item);
+    }
     public void comentarios(){
         /**
          * A simple {@link Fragment} subclass.

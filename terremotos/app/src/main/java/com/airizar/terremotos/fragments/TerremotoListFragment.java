@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -17,6 +20,7 @@ import com.airizar.terremotos.R;
 import com.airizar.terremotos.adapters.TerremotoAdapter;
 import com.airizar.terremotos.database.TerremotosDB;
 import com.airizar.terremotos.model.Terremoto;
+import com.airizar.terremotos.services.ServicioDescargaTerremotos;
 import com.airizar.terremotos.tasks.TareaDescargaTerremotos;
 
 import org.json.JSONObject;
@@ -41,6 +45,7 @@ public class TerremotoListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         listaTerremotos = new ArrayList<>();
         terremotoDB = new TerremotosDB(getActivity());
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -79,6 +84,22 @@ public class TerremotoListFragment extends ListFragment {
         listaTerremotos.addAll(terremotoDB.getAllByMagnitude(magnitud));
 
         aa.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_fragment,menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id=item.getItemId();
+        if(id==R.id.action_refresh){
+            Intent descarga=new Intent(getActivity(),ServicioDescargaTerremotos.class);
+            getActivity().startService(descarga);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void comentarios(){
