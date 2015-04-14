@@ -90,12 +90,14 @@ public class ServicioDescargaTerremotos extends Service {
         Intent intentToFire=new Intent(this, MainActivity.class);
         PendingIntent activityIntent=PendingIntent.getActivity(this,0,intentToFire,0);
         Notification.Builder builder=new Notification.Builder(ServicioDescargaTerremotos.this);
-        builder.setContentTitle(getString(R.string.app_name))
+        builder.setSmallIcon(R.drawable.ic_launcher)
+                .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.num_terremotos,count))
                 .setWhen(System.currentTimeMillis())
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                .setContentIntent(activityIntent);
+                .setContentIntent(activityIntent)
+                .setAutoCancel(true);
         Notification norification=builder.build();
         NotificationManager notificationManager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         int NOTIFICATION_REF=1;
