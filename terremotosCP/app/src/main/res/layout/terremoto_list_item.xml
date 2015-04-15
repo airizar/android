@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtMag"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:text="adsasda"
+        android:textSize="@dimen/abc_text_size_large_material"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="@dimen/abc_action_bar_default_padding_material"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="@dimen/abc_control_corner_material"
+        android:layout_marginRight="@dimen/abc_control_corner_material"
+        android:layout_marginBottom="@dimen/abc_control_corner_material" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/txtMag"
+        android:weightSum="1"
+        android:id="@+id/linearLayout"
+        android:paddingLeft="@dimen/abc_control_corner_material"
+        android:paddingTop="@dimen/abc_control_corner_material"
+        android:paddingBottom="@dimen/abc_control_corner_material"
+        android:paddingRight="0dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/txtLugar"
+            android:layout_weight="0.11"
+            android:textSize="@dimen/abc_text_size_body_1_material" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="New Text"
+            android:id="@+id/txtFech"
+            android:textSize="@dimen/abc_text_size_caption_material" />
+    </LinearLayout>
+
+</RelativeLayout>

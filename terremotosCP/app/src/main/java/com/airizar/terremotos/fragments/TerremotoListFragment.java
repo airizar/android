@@ -15,15 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.airizar.terremotos.DetalleTerremoto;
 import com.airizar.terremotos.R;
 import com.airizar.terremotos.adapters.TerremotoAdapter;
-import com.airizar.terremotos.database.TerremotosDB;
+import com.airizar.terremotos.providers.TerremotosDB;
 import com.airizar.terremotos.model.Terremoto;
 import com.airizar.terremotos.services.ServicioDescargaTerremotos;
-import com.airizar.terremotos.tasks.TareaDescargaTerremotos;
 
 import org.json.JSONObject;
 
@@ -49,10 +47,11 @@ public class TerremotoListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        listaTerremotos = new ArrayList<>();
+        listaTerremotos = new ArrayList();
         terremotoDB = new TerremotosDB(getActivity());
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         Log.d(FRAGMENT, "onCreate");
+
     }
 
 

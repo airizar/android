@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.airizar.terremotos.database.TerremotosDB;
+import com.airizar.terremotos.providers.TerremotosDB;
 import com.airizar.terremotos.model.Terremoto;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -74,6 +74,7 @@ abstract public class AbstractMapFragment extends MapFragment implements GoogleM
 
         CameraUpdate cu;
         //Despues de animar la camara en el callback al acabar el movimiento aplicarle el zoom deseado
+       if(terremotos.size()>0){
         if(terremotos.size()==1){
             cu = CameraUpdateFactory.newLatLngZoom(new LatLng(terremotos.get(0).getCoord().getLat(),
                     terremotos.get(0).getCoord().getLon()), 9);
@@ -81,7 +82,7 @@ abstract public class AbstractMapFragment extends MapFragment implements GoogleM
         else {
             cu = CameraUpdateFactory.newLatLngBounds(bounds, 0);
         }
-        map.animateCamera(cu);
+        map.animateCamera(cu);}
     }
     abstract protected void cargarTerremotos();
 
